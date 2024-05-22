@@ -1,0 +1,8 @@
+from manipulator_mujoco.props.primitive import Primitive
+
+from manipulator_mujoco.props.primitive_test import Primitive_test
+
+from manipulator_mujoco.props.primitive_cylinder import Primitive_cylinder
+from manipulator_mujoco.props.primitive_box_1 import Primitive_box_1
+from manipulator_mujoco.props.primitive_box_2 import Primitive_box_2
+from manipulator_mujoco.props.primitive_box_3 import Primitive_box_3

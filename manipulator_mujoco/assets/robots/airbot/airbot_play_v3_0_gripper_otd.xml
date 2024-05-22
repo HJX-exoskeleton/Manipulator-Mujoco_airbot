@@ -1,0 +1,149 @@
+<mujoco model="airbot_play_v3_0_gripper_otd">
+    <compiler angle="radian" meshdir="/home/hjx/hjx_file/mujoco_file/Manipulator-Mujoco/Manipulator-Mujoco_airbot/manipulator_mujoco/assets/robots/airbot/meshes/" autolimits="true" />
+    <size njmax="500" nconmax="100" />
+
+    <option integrator="implicitfast"/>
+
+    <!-- scene -->
+<!--    <include file="scene.xml"/>-->
+
+    <default>
+        <!-- damping -->
+        <default class="AirBot">
+            <joint damping='2'/>
+        </default>
+
+        <default class="Door">
+            <joint damping='0.01'/>
+        </default>
+
+        <default class="Gripper">
+            <joint damping='0.5'/>
+        </default>
+
+        <!-- visual -->
+        <default class="visual">
+            <geom group="2" type="mesh" contype="0" conaffinity="0" density="0"/>
+        </default>
+
+        <!-- collision -->
+        <default class="collision">
+          <geom group="3" type="mesh" density="2700"/>
+        </default>
+    </default>
+
+    <asset>
+        <material name="Opaque(63,63,63)" specular="0.5" shininess="0.5" rgba="0.250980 0.250980 0.250980 1.0"/>
+        <material name="Opaque(229,234,237)" specular="0.5" shininess="0.5" rgba="0.898039 0.917647 0.929412 1.0"/>
+        <material name="Opaque(232,133,0)" specular="0.5" shininess="0.5" rgba="0.909804 0.521569 0.000000 1.0"/>
+        <material name="Opaque(202,209,238)" specular="0.5" shininess="0.5" rgba="0.792157 0.819608 0.933333 1.0"/>
+        <material name="Opaque(255,255,255)" specular="0.5" shininess="0.5" rgba="1.000000 1.000000 1.000000 1.0"/>
+
+        <mesh name="arm_base" file="arm_base.STL" />
+        <mesh name="link1" file="link1.STL" />
+        <mesh name="link2" file="link2.STL" />
+        <mesh name="link3" file="link3.STL" />
+        <mesh name="link4" file="link4.STL" />
+        <mesh name="link5" file="link5.STL" />
+        <mesh name="link6" file="link6.STL" />
+        <mesh name="left" file="left.STL" />
+        <mesh name="right" file="right.STL" />
+    </asset>
+
+    <worldbody>
+        <!-- Light -->
+<!--        <light diffuse=".5 .5 .5" pos="0 0 3" dir="0 0 -1"/>-->
+
+        <!-- wall -->
+        <body name="wall" pos="0.4 0.5 0.5">
+            <geom type="box" size="0.01 0.25 0.5" rgba="0.2 0.3 0.5 0.9"/>
+        </body>
+
+        <!-- Door -->
+        <body name="door" pos="0.4 0 0.5">
+            <inertial pos="0 0 0" mass="0.5" diaginertia="0.001 0.001 0.001" />
+            <joint name="joint_door" class="Door" type="hinge" pos="0.0 0.25 0.0" axis="0 0 1" limited="true" range="0 1.57" />
+            <geom type="box" size="0.01 0.25 0.3" rgba="0.5 0.5 0.5 0.8"/>
+
+            <body name="door_handle" pos="-0.02 -0.16 0.1">
+                <geom type="box" size="0.03 0.01 0.01" rgba="0.5 0.5 0.5 1"/>
+                <inertial mass="0.001" pos="0 0 0" diaginertia="0.001 0.001 0.001"/>
+            </body>
+        </body>
+
+        <!-- AirBot_arm and box_link -->
+        <body name="box_link" pos="-0.1 -0.05 0.2">
+            <geom type="box" size="0.09 0.1 0.205" rgba="0.3 0.7 0.5 0.3"/>
+            <inertial pos="0 0 0" mass="1000" diaginertia="0.00 0.00 0.00" />
+
+            <body name="arm_base" pos="0 0 0.2">
+                <geom type="mesh" rgba="0.75294 0.75294 0.75294 1" mesh="arm_base" />
+
+                <body name="link1" pos="0 0 0.117">
+                    <inertial pos="7.9126e-05 -0.002527 -0.0041359" quat="0.696716 0.716558 0.0238919 -0.0236876" mass="0.54639" diaginertia="0.000346294 0.000325437 0.000286269" />
+                    <joint name="joint1" class="AirBot" pos="0 0 0" axis="0 0 1" limited="true" range="-3.14 2.09" />
+                    <geom type="mesh" rgba="0.89804 0.91765 0.92941 1" mesh="link1" />
+
+                    <body name="link2" pos="0 0 0" quat="0.135866 0.135867 -0.69393 0.693932">
+                        <inertial pos="0.22493 0.0047721 0.008023" quat="-0.210875 0.632473 -0.273056 0.693506" mass="0.64621" diaginertia="0.00516535 0.00505042 0.000418626" />
+                        <joint name="joint2" class="AirBot" pos="0 0 0" axis="0 0 1" limited="true" range="-2.96 0.17" />
+                        <geom type="mesh" rgba="0.75294 0.75294 0.75294 1" mesh="link2" />
+
+                        <body name="link3" pos="0.27009 0 0" quat="0.192144 0 0 -0.981367">
+                            <inertial pos="0.16813 -5.5576e-05 0.0031184" quat="0.511278 0.488423 0.489191 0.510617" mass="0.26829" diaginertia="0.0031527 0.0030951 0.000239403" />
+                            <joint name="joint3" class="AirBot" pos="0 0 0" axis="0 0 1" limited="true" range="-0.087 3.14" />
+                            <geom type="mesh" rgba="0.75294 0.75294 0.75294 1" mesh="link3" />
+
+                            <body name="link4" pos="0.30854 0 0" quat="-2.59734e-06 0.707105 2.59735e-06 0.707108">
+                                <inertial pos="5.2436e-06 0.00040412 -0.03228" quat="0.999969 -0.000174762 -0.00792041 -6.98144e-05" mass="0.34876" diaginertia="0.000423574 0.000412 0.000126826" />
+                                <joint name="joint4" class="AirBot" pos="0 0 0" axis="0 0 1" limited="true" range="-2.96 2.96" />
+                                <geom type="mesh" rgba="1 1 1 1" mesh="link4" />
+
+                                <body name="link5" pos="0 0 0" quat="0.707105 0.707108 0 0">
+                                    <inertial pos="8.3328e-06 0.026148 0.002525" quat="0.531568 0.4663 0.4663 0.531568" mass="0.36132" diaginertia="0.0004677 0.000432922 0.000178178" />
+                                    <joint name="joint5" class="AirBot" pos="0 0 0" axis="0 0 1" limited="true" range="-1.74 1.74" />
+                                    <geom type="mesh" rgba="0.89804 0.91765 0.92941 1" mesh="link5" />
+
+                                    <body name="link6" pos="0 0.23645 0" quat="0.499998 -0.5 0.5 0.500002">
+                                        <inertial pos="-0.0047053 7.3857e-05 -0.12293" mass="0.53855" diaginertia="5e-05 5e-05 3.85e-05" />
+                                        <joint name="joint6" class="Gripper" pos="0 0 0" axis="0 0 1" limited="true" range="-3.14 3.14" />
+                                        <geom type="mesh" rgba="0.69804 0.69804 0.69804 1" mesh="link6" />
+                                        <site name="attachment_site" pos="0.0 0.0 0.0" quat="1 0 0 0"/>
+                                        <site name="eef_site" pos="0 0 0.0" quat="0 0.7071068 -0.7071068 0"/>
+
+                                        <body name="left" pos="0 0.004 0" quat="0.707105 0 -0.707108 0">
+                                            <inertial pos="-0.049039 -0.0096764 0.00038868" quat="0.650491 0.0296695 0.0398251 0.757889" mass="0.061803" diaginertia="2.74809e-05 1.88104e-05 1.19127e-05" />
+                                            <joint name="endleft" class="Gripper" pos="0 0 0" axis="0 1 0" type="slide" limited="true" range="0.0 0.04" />
+                                            <geom type="mesh" rgba="1 1 1 1" mesh="left" />
+                                        </body>
+
+                                        <body name="right" pos="0 -0.004 0" quat="0.707105 0 -0.707108 0">
+                                            <inertial pos="-0.048742 0.0096369 0.00044322" quat="0.757393 0.0415116 0.0313705 0.650883" mass="0.0626" diaginertia="2.79281e-05 1.90181e-05 1.21737e-05" />
+                                            <joint name="endright" class="Gripper" pos="0 0 0" axis="0 1 0" type="slide" limited="true" range="-0.04 -0.0" />
+                                            <geom type="mesh" rgba="1 1 1 1" mesh="right" />
+                                        </body>
+
+                                    </body>
+                                </body>
+                            </body>
+                        </body>
+                    </body>
+                </body>
+            </body>
+        </body>
+    </worldbody>
+
+    <!--Contacts-->
+    <contact>
+        <exclude body1="wall" body2="door"/>
+        <exclude body1="door" body2="door_handle"/>
+        <exclude body1="box_link" body2="arm_base"/>
+        <exclude body1="arm_base" body2="link1"/>
+<!--        <exclude body1="link1" body2="link2"/>-->
+<!--        <exclude body1="link2" body2="link3"/>-->
+<!--        <exclude body1="link3" body2="link4"/>-->
+<!--        <exclude body1="link4" body2="link5"/>-->
+<!--        <exclude body1="link5" body2="link6"/>-->
+    </contact>
+
+</mujoco>

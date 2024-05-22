@@ -1,0 +1,40 @@
+<mujoco model="airbot_arm_manipulation_otd">
+
+    <include file="scene.xml"/>
+    <include file="airbot_arm_dependencies.xml"/>
+    <include file="airbot_arm.xml"/>
+
+    <tendon>
+      <fixed name="split">
+        <joint joint="endleft" coef="8"/>
+        <joint joint="endright" coef="-8"/>
+      </fixed>
+    </tendon>
+
+    <equality>
+<!--      <connect anchor="-0.020673 0 0.007524" body1="airbot_arm_finger_left" body2="airbot_arm_link6" solimp="0.95 0.99 0.001" solref="0.005 1"/>-->
+<!--      <connect anchor="-0.020673 0 0.007524" body1="airbot_arm_finger_right" body2="airbot_arm_link6" solimp="0.95 0.99 0.001" solref="0.005 1"/>-->
+<!--      <joint joint1="endleft" joint2="endright" polycoef="0 1 0 0 0" solimp="0.95 0.99 0.001" solref="0.005 1"/>-->
+    </equality>
+
+    <actuator>
+<!--        <position ctrllimited="true" ctrlrange="-3.14 2.09" joint="joint1" kp="0.1" user="1" forcelimited="true" forcerange="-150 150"/>-->
+<!--        <position ctrllimited="true" ctrlrange="-2.96 0.17" joint="joint2" kp="0.1" user="1" forcelimited="true" forcerange="-300 300"/>-->
+<!--        <position ctrllimited="true" ctrlrange="-0.087 3.14" joint="joint3" kp="0.1" user="1" forcelimited="true" forcerange="-100 100"/>-->
+<!--        <position ctrllimited="true" ctrlrange="-2.96 2.96" joint="joint4" kp="0.1" user="1" forcelimited="true" forcerange="-100 100"/>-->
+<!--        <position ctrllimited="true" ctrlrange="-1.74 1.74" joint="joint5" kp="0.1" user="1" forcelimited="true" forcerange="-100 100"/>-->
+<!--        <position ctrllimited="true" ctrlrange="-3.14 3.14" joint="joint6" kp="0.1" user="1" forcelimited="true" forcerange="-100 100"/>-->
+        <position ctrllimited="true" ctrlrange="0.001 0.04" joint="endleft" kp="200" user="1"/>
+        <position ctrllimited="true" ctrlrange="-0.04 -0.001" joint="endright" kp="200" user="1"/>
+
+        <!-- 夹爪开合 actuator -->
+<!--        <general class="AirBot" name="fingers_actuator" tendon="split" />-->
+        <general class="Gripper" name="fingers_actuator" tendon="split" forcerange="-5 5" ctrlrange="0 255" gainprm="0.3137255 0 0" biasprm="0 -100 -10"/>
+    </actuator>
+
+    <!-- keyframe -->
+    <keyframe>
+<!--        <key qpos="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"/>-->
+    </keyframe>
+
+</mujoco>

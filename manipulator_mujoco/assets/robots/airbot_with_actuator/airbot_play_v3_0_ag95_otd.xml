@@ -1,0 +1,145 @@
+<mujoco model="airbot_play_v3_0_ag95_otd">
+    <compiler angle="radian" meshdir="meshes" autolimits="true" />
+<!--    <size njmax="500" nconmax="100" />-->
+
+    <option integrator="implicitfast"/>
+    <option viscosity="0.1"/>
+    <option cone="elliptic" impratio="10"/>
+
+    <statistic center="0 0 0.05" extent="0.3"/>
+
+    <default>
+        <default class="AirBot">
+            <joint damping='2'/>
+        </default>
+        <default class="Door">
+            <joint damping='0.01'/>
+        </default>
+        <default class="Gripper">
+            <joint damping='0.5'/>
+        </default>
+    </default>
+
+    <visual>
+      <headlight diffuse="0.6 0.6 0.6" ambient="0.3 0.3 0.3" specular="0 0 0"/>
+      <rgba haze="0.15 0.25 0.35 1"/>
+      <global azimuth="60" elevation="-20"/>
+    </visual>
+
+    <asset>
+        <mesh name="base_link" file="base_link.STL" />
+        <mesh name="link1" file="link1.STL" />
+        <mesh name="link2" file="link2.STL" />
+        <mesh name="link3" file="link3.STL" />
+        <mesh name="link4" file="link4.STL" />
+        <mesh name="link5" file="link5.STL" />
+        <mesh name="link6" file="link6.STL" />
+
+        <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="3072"/>
+        <texture type="2d" name="groundplane" builtin="checker" mark="edge" rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3" markrgb="0.8 0.8 0.8" width="300" height="300"/>
+        <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5" reflectance="0.2"/>
+
+    </asset>
+
+    <include file="grid_with_pins_2d.xml" />
+<!--    <include file="test.xml" />-->
+
+    <worldbody>
+        <!-- Light -->
+        <light diffuse=".5 .5 .5" pos="0 0 3" dir="0 0 -1"/>
+
+        <!-- floor -->
+        <geom name="floor" size="0 0 0.05" type="plane" material="groundplane"/>
+
+        <!-- Object -->
+        <site size="0.002" pos="0.15 0.23 0.5" name="anchor"/>
+        <body name="object" pos="0.15 0.23 0.45">
+            <!-- attribute 'type' of element <joint>: Expect keyword to be one of ['free', 'ball', 'slide', 'hinge'] -->
+            <joint name="joint_object" type="hinge" frictionloss="0.01" />
+            <geom type="box" size="0.015 0.015 0.015" rgba=".5 .7 .5 1" friction=".5" priority="1"/>
+            <site size="0.002" pos="0.015 0.015 0.015" name="hook"/>
+        </body>
+
+        <!-- wall -->
+        <body name="wall" pos="0.4 0.5 0.5">
+            <geom type="box" size="0.01 0.25 0.5" rgba="0.2 0.3 0.5 0.9"/>
+        </body>
+
+        <!-- Door -->
+        <body name="door" pos="0.4 0 0.5">
+            <inertial pos="0 0 0" mass="0.5" diaginertia="0.001 0.001 0.001" />
+            <joint name="joint_door" class="Door" type="hinge" pos="0.0 0.25 0.0" axis="0 0 1" limited="true" range="0 1.57" />
+            <geom type="box" size="0.01 0.25 0.3" rgba="0.5 0.5 0.5 0.8"/>
+
+            <body name="door_handle" pos="-0.02 -0.16 0.1">
+                <geom type="box" size="0.03 0.01 0.01" rgba="0.5 0.5 0.5 1"/>
+                <inertial mass="0.001" pos="0 0 0" diaginertia="0.001 0.001 0.001"/>
+            </body>
+        </body>
+
+        <!-- AirBot_arm and box_link -->
+        <body name="box_link" pos="-0.1 -0.05 0.2">
+            <geom type="box" size="0.09 0.1 0.205" rgba="0.3 0.7 0.5 0.3"/>
+            <inertial pos="0 0 0" mass="1000" diaginertia="0 0 0" />
+
+            <body name="base_link" pos="0 0 0.2">
+                <geom type="mesh" rgba="0.75294 0.75294 0.75294 1" mesh="base_link" />
+
+                <body name="link1" pos="0 0 0.117">
+                    <inertial pos="6.9854e-05 -0.0018033 -0.0040245" quat="0.714263 0.698988 0.0237953 -0.0260401" mass="0.5571" diaginertia="0.0003648 0.000344825 0.000294376" />
+                    <joint name="joint1" class="AirBot" pos="0 0 0" axis="0 0 1" limited="true" range="-3.14 2.093" />
+                    <geom type="mesh" rgba="0.89804 0.91765 0.92941 1" mesh="link1" />
+
+                    <body name="link2" pos="0 0 0" quat="0.135866 0.135867 -0.69393 0.693932">
+                        <inertial pos="0.22493 0.0047721 0.008023" quat="0.298115 0.596337 0.297303 0.683462" mass="0.64621" diaginertia="0.00516535 0.00505042 0.000418626" />
+                        <joint name="joint2" class="AirBot" pos="0 0 0" axis="0 0 1" limited="true" range="-2.965 0.174" />
+                        <geom type="mesh" rgba="0.75294 0.75294 0.75294 1" mesh="link2" />
+
+                        <body name="link3" pos="0.27009 0 0" quat="0.55806 0 0 0.8298">
+                            <inertial pos="-0.00037204 0.16316 0.0024748" quat="0.694601 0.719377 -0.00121456 0.00500828" mass="0.28804" diaginertia="0.00261618 0.00255446 0.000219265" />
+                            <joint name="joint3" class="AirBot" pos="0 0 0" axis="0 0 1" limited="true" range="-0.872 3.14" />
+                            <geom type="mesh" rgba="0.75294 0.75294 0.75294 1" mesh="link3" />
+
+                            <body name="link4" pos="0 0.30854 0" quat="0.499998 -0.5 -0.5 -0.500002">
+                                <inertial pos="5.2436e-06 0.00040412 -0.03228" quat="0.706226 0.0121253 0.00732967 0.707845" mass="0.34876" diaginertia="0.00505892 0.00498531 0.000346573" />
+                                <joint name="joint4" class="AirBot" pos="0 0 0" axis="0 0 1" limited="true" range="-2.442 2.442" />
+                                <geom type="mesh" rgba="1 1 1 1" mesh="link4" />
+
+                                <body name="link5" pos="0 0 0" quat="0.707105 0.707108 0 0">
+                                    <inertial pos="8.333e-06 0.026148 0.002525" quat="0.659447 0.751751 0 0" mass="0.36132" diaginertia="0.0004677 0.000432922 0.000178178" />
+                                    <joint name="joint5" class="AirBot" pos="0 0 0" axis="0 0 1" limited="true" range="-1.74 1.74" />
+                                    <geom type="mesh" rgba="0.89804 0.91765 0.92941 1" mesh="link5" />
+
+                                    <body name="link6" pos="0 0.0865 0" quat="0.707105 -0.707108 0 0">
+                                        <inertial pos="1.1897e-05 -6.2054e-07 -0.023" mass="0.17462" diaginertia="5e-05 5e-05 3.85e-05" />
+                                        <joint name="joint6" class="Gripper" pos="0 0 0" axis="0 0 1" limited="true" range="-3.14 3.14" />
+                                        <geom type="mesh" rgba="0.69804 0.69804 0.69804 1" mesh="link6" />
+                                        <site name="attachment_site" pos="0 0 0.0" quat="1 0 0 0"/>
+                                        <site name="eef_site" pos="0 0 0.18" quat="0 0.7071068 -0.7071068 0"/>
+
+                                    </body>
+                                </body>
+                            </body>
+                        </body>
+                    </body>
+                </body>
+            </body>
+        </body>
+    </worldbody>
+
+    <!--Contacts-->
+    <contact>
+        <exclude body1="wall" body2="door"/>
+        <exclude body1="door" body2="door_handle"/>
+        <exclude body1="box_link" body2="base_link"/>
+        <exclude body1="base_link" body2="link1"/>
+    </contact>
+
+    <tendon>
+      <spatial limited="true" range="0 0.02" width="0.001">
+        <site site="hook"/>
+        <site site="anchor"/>
+      </spatial>
+    </tendon>
+
+</mujoco>

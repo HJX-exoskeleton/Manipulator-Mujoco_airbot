@@ -1,0 +1,13 @@
+<mujoco model="2D grid with pins">
+
+  <size memory="10M"/>
+
+  <worldbody>
+    <composite type="grid" count="6 6 1" spacing="0.05" offset="0.15 0.23 1" >
+      <skin rgba="0.4 0.2 0.5 1" inflate="0.001" subgrid="8"/>
+      <pin coord="0 0"/>
+      <pin coord="5 0"/>
+      <geom size="0.02" mass="0.003" />
+    </composite>
+  </worldbody>
+</mujoco>

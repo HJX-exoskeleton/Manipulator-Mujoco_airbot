@@ -1,0 +1,52 @@
+<mujocoinclude model="airbot_arm_dependencies">
+
+    <compiler angle="radian" inertiafromgeom="auto" meshdir="meshes" autolimits="true" />
+
+    <option integrator="implicitfast"/>
+    <option viscosity="0.1"/>
+    <option cone="elliptic" impratio="10"/>
+
+    <default>
+        <!-- damping -->
+        <default class="AirBot">
+            <joint damping='3'/>
+        </default>
+        <default class="Door">
+            <joint damping='0.1'/>
+        </default>
+        <default class="Gripper">
+            <joint damping='500' solimplimit="0.95 0.99 0.001" solreflimit="0.005 1" />
+            <general biastype="affine" />
+        </default>
+
+    </default>
+
+    <!-- meshes -->
+    <asset>
+        <mesh name="arm_base" file="arm_base.STL" scale="1 1 1" />
+        <mesh name="link1" file="link1.STL" scale="1 1 1" />
+        <mesh name="link2" file="link2.STL" scale="1 1 1" />
+        <mesh name="link3" file="link3.STL" scale="1 1 1" />
+        <mesh name="link4" file="link4.STL" scale="1 1 1" />
+        <mesh name="link5" file="link5.STL" scale="1 1 1" />
+        <mesh name="link6" file="link6.STL" scale="1 1 1" />
+        <mesh name="left" file="left.STL" scale="1 1 1" />
+        <mesh name="right" file="right.STL" scale="1 1 1" />
+    </asset>
+
+    <!--Contacts-->
+    <contact>
+        <exclude body1="wall" body2="door"/>
+        <exclude body1="door" body2="door_handle"/>
+        <exclude body1="box_link" body2="airbot_arm_arm_base"/>
+        <exclude body1="airbot_arm_arm_base" body2="airbot_arm_link1"/>
+<!--        <exclude body1="airbot_arm_link1" body2="airbot_arm_link2"/>-->
+<!--        <exclude body1="airbot_arm_link2" body2="airbot_arm_link3"/>-->
+<!--        <exclude body1="airbot_arm_link3" body2="airbot_arm_link4"/>-->
+<!--        <exclude body1="airbot_arm_link4" body2="airbot_arm_link5"/>-->
+<!--        <exclude body1="airbot_arm_link5" body2="airbot_arm_link6"/>-->
+        <exclude body1="airbot_arm_link6" body2="airbot_arm_finger_left"/>
+        <exclude body1="airbot_arm_link6" body2="airbot_arm_finger_right"/>
+    </contact>
+
+</mujocoinclude>
